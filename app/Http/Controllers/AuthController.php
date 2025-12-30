@@ -166,6 +166,50 @@ class AuthController extends Controller
             'message' => 'Password berhasil direset',
         ]);
     }
+
+    public function updateProfile(Request $request)
+    {
+        $user = $request->user();
+        
+        $validated = $request->validate([
+            'nama' => ['nullable', 'string', 'max:255'],
+            'alamat' => ['nullable', 'string'],
+            'telp' => ['nullable', 'string', 'max:50'],
+            'nik' => ['nullable', 'string', 'max:50'],
+            'foto' => ['nullable', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
+            'password' => ['nullable', 'confirmed', Password::min(8)],
+        ]);
+
+        $userData = collect($validated)->only(['nama', 'alamat', 'telp'])->filter()->toArray();
+        if (!empty($validated['password'])) {
+            $userData['password'] = Hash::make($validated['password']);
+        }
+
+        if ($request->hasFile('foto')) {
+            if ($user->foto) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($user->foto);
+            }
+            $userData['foto'] = $request->file('foto')->store('profiles', 'public');
+        }
+
+        $user->update($userData);
+
+        if (!empty($validated['nik']) || !empty($validated['alamat']) || !empty($validated['telp'])) {
+            $pelanggan = Pelanggan::updateOrCreate(
+                ['id_user' => $user->id],
+                [
+                    'nik' => $validated['nik'] ?? ($user->pelanggan?->nik ?? ''),
+                    'alamat' => $validated['alamat'] ?? ($user->pelanggan?->alamat ?? ''),
+                    'telp' => $validated['telp'] ?? ($user->pelanggan?->telp ?? ''),
+                ]
+            );
+        }
+
+        return response()->json([
+            'message' => 'Profil berhasil diperbarui',
+            'user' => $user->load('pelanggan'),
+        ]);
+    }
 }
 
 
