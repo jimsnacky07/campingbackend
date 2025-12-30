@@ -116,6 +116,8 @@ class SewaController extends Controller
                 $fotoKtpPath = $request->file('foto_ktp')->store('ktp', 'public');
             }
 
+            \App\Helpers\DebugHelper::info('KTP Upload Debug', ['path' => $fotoKtpPath]);
+
             if ($totalHarga <= 0) {
                 throw new \RuntimeException('Total harga sewa tidak boleh Rp 0. Periksa harga barang.');
             }
@@ -128,6 +130,11 @@ class SewaController extends Controller
                 'status' => 'pending',
                 'catatan' => $validated['catatan'] ?? null,
                 'foto_ktp' => $fotoKtpPath,
+            ]);
+
+            \App\Helpers\DebugHelper::info('Sewa Created Debug', [
+                'id' => $sewa->id,
+                'foto_ktp' => $sewa->foto_ktp
             ]);
 
             foreach ($validated['items'] as $item) {

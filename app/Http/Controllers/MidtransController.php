@@ -85,6 +85,8 @@ class MidtransController extends Controller
 
     public function handleNotification(Request $request)
     {
+        DebugHelper::info('Midtrans Notification Received', $request->all());
+
         $notif = new Notification();
 
         $transaction = $notif->transaction_status;
@@ -136,7 +138,27 @@ class MidtransController extends Controller
     {
         try {
             $status = \Midtrans\Transaction::status($orderId);
-            return response()->json(['data' => $status]);
+            
+            // Sync status to database
+            $sewa = Sewa::where('midtrans_order_id', $orderId)->first();
+            if ($sewa) {
+                $transaction = $status->transaction_status;
+                if ($transaction == 'settlement' || $transaction == 'capture') {
+                    $sewa->update([
+                        'status' => 'dibayar',
+                        'paid_at' => now(),
+                        'payment_type' => $status->payment_type,
+                        'midtrans_transaction_id' => $status->transaction_id
+                    ]);
+                } else if (in_array($transaction, ['deny', 'expire', 'cancel'])) {
+                    $sewa->update(['status' => 'batal']);
+                }
+            }
+
+            return response()->json([
+                'data' => $status,
+                'local_status' => $sewa ? $sewa->status : null
+            ]);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }

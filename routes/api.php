@@ -25,16 +25,18 @@ Route::prefix('auth')->group(function () {
     });
 });
 
+// Public routes for Kategori & Barang
+Route::get('/kategori', [KategoriController::class, 'index']);
+Route::get('/kategori/{kategori}', [KategoriController::class, 'show']);
+Route::get('/barang', [BarangController::class, 'index']);
+Route::get('/barang/{barang}', [BarangController::class, 'show']);
+
 Route::middleware('auth:sanctum')->group(function () {
-    // Master data Kategori & Barang (list bisa diakses user, CRUD oleh admin)
-    Route::get('/kategori', [KategoriController::class, 'index']);
-    Route::get('/kategori/{kategori}', [KategoriController::class, 'show']);
+    // Protected Master data (CRUD oleh admin)
     Route::post('/kategori', [KategoriController::class, 'store']);
     Route::put('/kategori/{kategori}', [KategoriController::class, 'update']);
     Route::delete('/kategori/{kategori}', [KategoriController::class, 'destroy']);
 
-    Route::get('/barang', [BarangController::class, 'index']);
-    Route::get('/barang/{barang}', [BarangController::class, 'show']);
     Route::post('/barang', [BarangController::class, 'store']);
     Route::put('/barang/{barang}', [BarangController::class, 'update']);
     Route::delete('/barang/{barang}', [BarangController::class, 'destroy']);

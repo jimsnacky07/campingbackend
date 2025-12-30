@@ -81,6 +81,43 @@
             </div>
         </div>
     </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">Foto KTP</div>
+                <div class="card-body text-center">
+                    @if($sewa->foto_ktp)
+                        <img src="{{ asset('storage/' . $sewa->foto_ktp) }}" alt="Foto KTP" class="img-fluid rounded shadow-sm" style="max-height: 400px;">
+                        <div class="mt-2">
+                            <a href="{{ asset('storage/' . $sewa->foto_ktp) }}" target="_blank" class="btn btn-outline-primary btn-sm">Lihat Full Size</a>
+                        </div>
+                    @else
+                        <div class="py-4 text-muted">
+                            <p class="mb-0">Belum ada foto KTP yang diunggah</p>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">Bukti Pembayaran</div>
+                <div class="card-body text-center">
+                    @if($sewa->bukti_bayar)
+                        <img src="{{ asset('storage/' . $sewa->bukti_bayar) }}" alt="Bukti Bayar" class="img-fluid rounded shadow-sm" style="max-height: 400px;">
+                        <div class="mt-2">
+                            <a href="{{ asset('storage/' . $sewa->bukti_bayar) }}" target="_blank" class="btn btn-outline-success btn-sm">Lihat Full Size</a>
+                        </div>
+                    @else
+                        <div class="py-4 text-muted">
+                            <p class="mb-0">Belum ada bukti pembayaran yang diunggah</p>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 

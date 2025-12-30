@@ -18,6 +18,7 @@ class Sewa extends Model
         'total_harga',
         'status',
         'bukti_bayar',
+        'foto_ktp',
         'catatan',
         'midtrans_order_id',
         'midtrans_transaction_id',
