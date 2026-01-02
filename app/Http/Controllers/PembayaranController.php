@@ -17,22 +17,38 @@ class PembayaranController extends Controller
         }
 
         $validated = $request->validate([
-            'bukti_bayar' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+            'bukti_bayar' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+            'bukti_jemput' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
         ]);
 
-        if ($sewa->bukti_bayar) {
-            Storage::disk('public')->delete($sewa->bukti_bayar);
+        $updateData = [];
+
+        if ($request->hasFile('bukti_bayar')) {
+            if ($sewa->bukti_bayar) {
+                Storage::disk('public')->delete($sewa->bukti_bayar);
+            }
+            $path = $request->file('bukti_bayar')->store('bukti-bayar', 'public');
+            $updateData['bukti_bayar'] = $path;
+            $updateData['status'] = 'dibayar';
         }
 
-        $path = $request->file('bukti_bayar')->store('bukti-bayar', 'public');
+        if ($request->hasFile('bukti_jemput')) {
+            if ($sewa->bukti_jemput) {
+                Storage::disk('public')->delete($sewa->bukti_jemput);
+            }
+            $path = $request->file('bukti_jemput')->store('bukti-jemput', 'public');
+            $updateData['bukti_jemput'] = $path;
+            $updateData['status'] = 'dipinjam';
+        }
 
-        $sewa->update([
-            'bukti_bayar' => $path,
-            'status' => 'dibayar',
-        ]);
+        if (empty($updateData)) {
+            return response()->json(['message' => 'Tidak ada file yang diunggah'], 422);
+        }
+
+        $sewa->update($updateData);
 
         return response()->json([
-            'message' => 'Bukti pembayaran berhasil diunggah',
+            'message' => 'Berkas berhasil diunggah',
             'sewa' => $sewa->fresh(),
         ]);
     }

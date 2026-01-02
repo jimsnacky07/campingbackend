@@ -42,6 +42,10 @@ class MidtransController extends Controller
         $orderId = 'RENT-' . $sewa->id . '-' . time();
         $sewa->update(['midtrans_order_id' => $orderId]);
 
+        $tanggalSewa = \Carbon\Carbon::parse($sewa->tanggal_sewa);
+        $tanggalKembali = \Carbon\Carbon::parse($sewa->tanggal_kembali);
+        $lamaSewa = max(1, (int) $tanggalSewa->diffInDays($tanggalKembali));
+
         $params = [
             'transaction_details' => [
                 'order_id' => $orderId,
@@ -52,10 +56,10 @@ class MidtransController extends Controller
                 'email' => $sewa->pelanggan->email ?? 'customer@example.com',
                 'phone' => $sewa->pelanggan->telp,
             ],
-            'item_details' => $sewa->detailSewa->map(function ($detail) {
+            'item_details' => $sewa->detailSewa->map(function ($detail) use ($lamaSewa) {
                 return [
                     'id' => $detail->id_barang,
-                    'price' => (int) ($detail->harga ?? $detail->barang->harga_sewa),
+                    'price' => (int) ($detail->harga ?? $detail->barang->harga_sewa) * $lamaSewa,
                     'quantity' => $detail->qty,
                     'name' => $detail->barang->nama_barang,
                 ];

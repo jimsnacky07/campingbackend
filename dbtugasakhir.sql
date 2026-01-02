@@ -45,14 +45,14 @@ insert  into `barang`(`id`,`id_kategori`,`nama_barang`,`deskripsi`,`harga_sewa`,
 (5,2,'Sleeping Bag Musim Panas','Sleeping bag ringan untuk cuaca hangat',25000,15,NULL,'2025-12-09 05:51:13','2025-12-09 05:51:13'),
 (6,2,'Sleeping Bag Musim Dingin','Sleeping bag tebal untuk suhu dingin hingga 5°C',40000,10,NULL,'2025-12-09 05:51:13','2025-12-09 05:51:13'),
 (7,2,'Sleeping Bag Premium','Sleeping bag premium dengan bahan berkualitas tinggi',60000,8,NULL,'2025-12-09 05:51:13','2025-12-09 05:51:13'),
-(8,3,'Carrier 40L','Carrier kapasitas 40 liter untuk hiking 1-2 hari',35000,10,NULL,'2025-12-09 05:51:13','2025-12-30 16:48:09'),
-(9,3,'Carrier 60L','Carrier kapasitas 60 liter untuk hiking 3-4 hari',50000,8,NULL,'2025-12-09 05:51:13','2025-12-23 05:13:26'),
+(8,3,'Carrier 40L','Carrier kapasitas 40 liter untuk hiking 1-2 hari',35000,9,NULL,'2025-12-09 05:51:13','2025-12-30 20:44:26'),
+(9,3,'Carrier 60L','Carrier kapasitas 60 liter untuk hiking 3-4 hari',50000,7,NULL,'2025-12-09 05:51:13','2025-12-30 19:19:02'),
 (10,3,'Carrier 80L','Carrier besar 80 liter untuk ekspedisi panjang',75000,5,NULL,'2025-12-09 05:51:13','2025-12-09 05:51:13'),
 (11,4,'Kompor Gas Mini','Kompor gas portable ukuran mini, hemat dan praktis',20000,19,NULL,'2025-12-09 05:51:13','2025-12-30 16:26:10'),
-(12,4,'Kompor Gas Double Burner','Kompor gas 2 tungku untuk memasak lebih cepat',35000,10,NULL,'2025-12-09 05:51:13','2025-12-09 05:51:13'),
+(12,4,'Kompor Gas Double Burner','Kompor gas 2 tungku untuk memasak lebih cepat',35000,10,NULL,'2025-12-09 05:51:13','2025-12-30 20:23:03'),
 (13,4,'Kompor Spiritus','Kompor spiritus portable, aman dan mudah digunakan',15000,15,NULL,'2025-12-09 05:51:13','2025-12-09 05:51:13'),
-(14,5,'Lampu LED Gantung','Lampu LED gantung dengan 3 mode pencahayaan',15000,23,NULL,'2025-12-09 05:51:13','2025-12-30 16:26:10'),
-(15,5,'Headlamp LED','Headlamp LED untuk aktivitas malam hari',20000,19,NULL,'2025-12-09 05:51:13','2025-12-30 16:26:10'),
+(14,5,'Lampu LED Gantung','Lampu LED gantung dengan 3 mode pencahayaan',15000,22,NULL,'2025-12-09 05:51:13','2025-12-30 20:36:37'),
+(15,5,'Headlamp LED','Headlamp LED untuk aktivitas malam hari',20000,18,NULL,'2025-12-09 05:51:13','2025-12-30 20:50:47'),
 (16,5,'Senter LED Rechargeable','Senter LED bisa dicharge ulang, tahan air',25000,15,NULL,'2025-12-09 05:51:13','2025-12-23 05:21:39'),
 (17,5,'Lampu Emergency Solar','Lampu emergency dengan panel solar dan powerbank',30000,10,NULL,'2025-12-09 05:51:13','2025-12-23 05:21:39');
 
@@ -99,7 +99,7 @@ CREATE TABLE `detail_pengembalian` (
   KEY `detail_pengembalian_id_barang_foreign` (`id_barang`),
   CONSTRAINT `detail_pengembalian_id_barang_foreign` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `detail_pengembalian_id_pengembalian_foreign` FOREIGN KEY (`id_pengembalian`) REFERENCES `pengembalian` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `detail_pengembalian` */
 
@@ -111,7 +111,9 @@ insert  into `detail_pengembalian`(`id`,`id_pengembalian`,`id_barang`,`kondisi`,
 (5,2,11,'rusak berat',10000,'2025-12-23 05:21:39','2025-12-23 05:21:39'),
 (6,2,17,'baik',0,'2025-12-23 05:21:39','2025-12-23 05:21:39'),
 (7,2,14,'hilang',15000,'2025-12-23 05:21:39','2025-12-23 05:21:39'),
-(8,2,16,'baik',0,'2025-12-23 05:21:39','2025-12-23 05:21:39');
+(8,2,16,'baik',0,'2025-12-23 05:21:39','2025-12-23 05:21:39'),
+(9,3,8,'baik',0,'2025-12-30 19:27:02','2025-12-30 19:27:02'),
+(10,4,12,'rusak ringan',7000,'2025-12-30 20:23:03','2025-12-30 20:23:03');
 
 /*Table structure for table `detail_sewa` */
 
@@ -130,7 +132,7 @@ CREATE TABLE `detail_sewa` (
   KEY `detail_sewa_id_barang_foreign` (`id_barang`),
   CONSTRAINT `detail_sewa_id_barang_foreign` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `detail_sewa_id_sewa_foreign` FOREIGN KEY (`id_sewa`) REFERENCES `sewa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `detail_sewa` */
 
@@ -147,7 +149,12 @@ insert  into `detail_sewa`(`id`,`id_sewa`,`id_barang`,`qty`,`harga`,`created_at`
 (10,3,15,1,20000,'2025-12-30 16:26:11','2025-12-30 16:26:11'),
 (11,3,11,1,20000,'2025-12-30 16:26:11','2025-12-30 16:26:11'),
 (12,3,14,1,15000,'2025-12-30 16:26:11','2025-12-30 16:26:11'),
-(13,4,8,1,35000,'2025-12-30 16:48:09','2025-12-30 16:48:09');
+(13,4,8,1,35000,'2025-12-30 16:48:09','2025-12-30 16:48:09'),
+(14,5,8,1,35000,'2025-12-30 19:03:01','2025-12-30 19:03:01'),
+(15,6,9,1,50000,'2025-12-30 19:19:02','2025-12-30 19:19:02'),
+(16,7,12,1,35000,'2025-12-30 20:20:45','2025-12-30 20:20:45'),
+(17,8,14,1,15000,'2025-12-30 20:36:37','2025-12-30 20:36:37'),
+(19,10,15,1,20000,'2025-12-30 20:50:47','2025-12-30 20:50:47');
 
 /*Table structure for table `failed_jobs` */
 
@@ -243,9 +250,12 @@ CREATE TABLE `keranjang` (
   KEY `keranjang_id_barang_foreign` (`id_barang`),
   CONSTRAINT `keranjang_id_barang_foreign` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id`),
   CONSTRAINT `keranjang_id_pelanggan_foreign` FOREIGN KEY (`id_pelanggan`) REFERENCES `pelanggan` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `keranjang` */
+
+insert  into `keranjang`(`id`,`id_pelanggan`,`id_barang`,`qty`,`created_at`,`updated_at`) values 
+(8,2,8,1,'2025-12-30 19:36:44','2025-12-30 19:36:44');
 
 /*Table structure for table `metode_pembayaran` */
 
@@ -351,13 +361,15 @@ CREATE TABLE `pengembalian` (
   PRIMARY KEY (`id`),
   KEY `pengembalian_id_sewa_foreign` (`id_sewa`),
   CONSTRAINT `pengembalian_id_sewa_foreign` FOREIGN KEY (`id_sewa`) REFERENCES `sewa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `pengembalian` */
 
 insert  into `pengembalian`(`id`,`id_sewa`,`tanggal_pengembalian`,`total_denda`,`created_at`,`updated_at`) values 
 (1,1,'2026-01-02',0,'2025-12-23 05:13:26','2025-12-23 05:13:26'),
-(2,2,'2025-12-31',25000,'2025-12-23 05:21:39','2025-12-23 05:21:39');
+(2,2,'2025-12-31',25000,'2025-12-23 05:21:39','2025-12-23 05:21:39'),
+(3,5,'2025-12-30',0,'2025-12-30 19:27:02','2025-12-30 19:27:02'),
+(4,7,'2026-01-10',7000,'2025-12-30 20:23:03','2025-12-30 20:23:03');
 
 /*Table structure for table `personal_access_tokens` */
 
@@ -378,14 +390,16 @@ CREATE TABLE `personal_access_tokens` (
   UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
   KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`),
   KEY `personal_access_tokens_expires_at_index` (`expires_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `personal_access_tokens` */
 
 insert  into `personal_access_tokens`(`id`,`tokenable_type`,`tokenable_id`,`name`,`token`,`abilities`,`last_used_at`,`expires_at`,`created_at`,`updated_at`) values 
 (1,'App\\Models\\User',2,'user_token','bf518d9649944a7875cffc31cbf400088a9ab4545e0cd5db5c361eafa95ced0b','[\"*\"]',NULL,NULL,'2025-12-04 08:56:42','2025-12-04 08:56:42'),
 (2,'App\\Models\\User',2,'user_token','ccc512617878a173c77ac414cc9b497a9ebc7f8ecf289a8afc8d4b76986ed129','[\"*\"]',NULL,NULL,'2025-12-04 08:57:55','2025-12-04 08:57:55'),
-(9,'App\\Models\\User',6,'user_token','0205eed43ee4a71fb62ba5503bb8bb3621ea39ebb4e29e5f7e6f00657b23c0f7','[\"*\"]','2025-12-30 16:48:15',NULL,'2025-12-30 16:47:33','2025-12-30 16:48:15');
+(9,'App\\Models\\User',6,'user_token','0205eed43ee4a71fb62ba5503bb8bb3621ea39ebb4e29e5f7e6f00657b23c0f7','[\"*\"]','2025-12-30 16:48:15',NULL,'2025-12-30 16:47:33','2025-12-30 16:48:15'),
+(10,'App\\Models\\User',6,'user_token','29f6969e4438521a9c86c79ebf2e8ba1b232482b4cef62ee6d17f9dbe15668cc','[\"*\"]','2025-12-30 18:49:47',NULL,'2025-12-30 18:49:33','2025-12-30 18:49:47'),
+(12,'App\\Models\\User',5,'user_token','52f90e9c8e637f0994f2bd52c13eb600821072b823d21a3d5d2dfca6d8f0829a','[\"*\"]','2025-12-30 21:11:59',NULL,'2025-12-30 20:19:44','2025-12-30 21:11:59');
 
 /*Table structure for table `sessions` */
 
@@ -406,8 +420,7 @@ CREATE TABLE `sessions` (
 /*Data for the table `sessions` */
 
 insert  into `sessions`(`id`,`user_id`,`ip_address`,`user_agent`,`payload`,`last_activity`) values 
-('MiTEU6rE9gfO426Benr01tC2j0DfYY5XEU3ImK7Z',1,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36','YTo0OntzOjY6Il90b2tlbiI7czo0MDoiNERZb0NFNGVCdThSMVBkb3puM05ZWW9kM0Jxcm5ld0l0S3BDcHNrMSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NTE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9sYXBvcmFuL2JhcmFuZy10ZXJsYXJpcyI7czo1OiJyb3V0ZSI7czoyOToiYWRtaW4ubGFwb3Jhbi5iYXJhbmctdGVybGFyaXMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=',1765259579),
-('T19p92EV38CnavlcvvRnudTwrePQl8h7WAiOTt0Y',NULL,'192.168.100.48','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36','YTozOntzOjY6Il90b2tlbiI7czo0MDoidDBXRWxvZkFmRkNGV1pCNVlRdlRPQ0pLYk5NVGpyMXNnQ2ZSSmVzUCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mzg6Imh0dHA6Ly8xOTIuMTY4LjEwMC40ODo4MDAwL2FkbWluL2xvZ2luIjtzOjU6InJvdXRlIjtzOjExOiJhZG1pbi5sb2dpbiI7fX0=',1766467378);
+('w8NQMuYabqq3paeOU7FLCvkp0Zyl3Ri3vEiAzSiF',1,'192.168.100.48','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36','YTo0OntzOjY6Il90b2tlbiI7czo0MDoiYUxPUUpIZDJZV0tyM3NqdFpHZDlnV1lPbGlVcGQzUWFiNjlJT0Z3NCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDI6Imh0dHA6Ly8xOTIuMTY4LjEwMC40ODo4MDAwL2FkbWluL2Rhc2hib2FyZCI7czo1OiJyb3V0ZSI7czoxNToiYWRtaW4uZGFzaGJvYXJkIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9',1767129332);
 
 /*Table structure for table `sewa` */
 
@@ -432,7 +445,7 @@ CREATE TABLE `sewa` (
   PRIMARY KEY (`id`),
   KEY `sewa_id_pelanggan_foreign` (`id_pelanggan`),
   CONSTRAINT `sewa_id_pelanggan_foreign` FOREIGN KEY (`id_pelanggan`) REFERENCES `pelanggan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `sewa` */
 
@@ -440,7 +453,12 @@ insert  into `sewa`(`id`,`id_pelanggan`,`tanggal_sewa`,`tanggal_kembali`,`total_
 (1,1,'2025-12-23','2025-12-24',70000,'dikembalikan','bukti-bayar/G0FJFZg62G875KbbDnhZSOcuGvQYFYLiZipgHeRS.png',NULL,NULL,NULL,NULL,NULL,NULL,'2025-12-23 05:09:28','2025-12-23 05:13:26'),
 (2,2,'2025-12-23','2025-12-31',1160000,'dikembalikan','bukti-bayar/7lyhls8eaJPD2CMqgadgSM61v2wyYrX2EQSdvANO.png',NULL,'Coba coba 2',NULL,NULL,NULL,NULL,'2025-12-23 05:19:35','2025-12-23 05:21:39'),
 (3,1,'2025-12-30','2026-01-03',360000,'pending',NULL,NULL,'Test Midtrans 1',NULL,NULL,NULL,NULL,'2025-12-30 16:26:11','2025-12-30 16:26:11'),
-(4,2,'2025-12-30','2025-12-31',35000,'pending',NULL,NULL,'Test Midtrans 2','RENT-4-1767113295',NULL,NULL,NULL,'2025-12-30 16:48:09','2025-12-30 16:48:15');
+(4,2,'2025-12-30','2025-12-31',35000,'pending',NULL,NULL,'Test Midtrans 2','RENT-4-1767113295',NULL,NULL,NULL,'2025-12-30 16:48:09','2025-12-30 16:48:15'),
+(5,2,'2025-12-30','2025-12-31',35000,'dikembalikan',NULL,NULL,'Yy','RENT-5-1767121392','9679f2ba-3fc9-4acb-8948-ef5092138491','bank_transfer','2025-12-30 19:17:54','2025-12-30 19:03:01','2025-12-30 19:27:02'),
+(6,2,'2025-12-30','2025-12-31',50000,'batal',NULL,NULL,'Uu','RENT-6-1767122346',NULL,NULL,NULL,'2025-12-30 19:19:02','2025-12-30 19:21:06'),
+(7,1,'2025-12-30','2025-12-31',35000,'dipinjam',NULL,NULL,'Test Midtrans 3','RENT-7-1767126051','983f5df7-ca15-4a03-b97f-6f57a4002787','bank_transfer','2025-12-30 20:22:07','2025-12-30 20:20:45','2025-12-30 20:24:03'),
+(8,1,'2025-12-30','2025-12-31',15000,'dibayar','bukti-bayar/2An8397fjCI5mKvuCxvz4qInsjxQyPAyGAnlVMgU.png',NULL,'Test upload KTP',NULL,NULL,NULL,NULL,'2025-12-30 20:36:37','2025-12-30 20:36:53'),
+(10,1,'2025-12-30','2025-12-31',20000,'dibayar','bukti-bayar/OXZ0BJb84lV3r5sgvgQyewUqaZBuhgSfCRKhEHRd.png','ktp/PJumwGQfJOUfvFkJUtqQufixWnr5YS9n9xei8Gna.jpg','Test KTP Final',NULL,NULL,NULL,NULL,'2025-12-30 20:50:47','2025-12-30 20:51:03');
 
 /*Table structure for table `users` */
 
@@ -469,7 +487,7 @@ CREATE TABLE `users` (
 insert  into `users`(`id`,`nama`,`username`,`email`,`email_verified_at`,`password`,`role`,`alamat`,`telp`,`foto`,`remember_token`,`created_at`,`updated_at`) values 
 (1,'Admin','Admin','admin@gmail.com',NULL,'$2y$12$N3dJBMETGHrBPiluPz4QieoLAvQae/wL/wmKyaszfHgQhVk5YtlUq','admin',NULL,NULL,NULL,NULL,'2025-12-04 08:42:17','2025-12-04 08:42:17'),
 (3,'Administrator','admin','admin@camping.com',NULL,'$2y$12$gmEFBoSr2Ugfh77CkKYvY.9fHjkVIwmXDLv03kqe3zsfCHELPsi/6','admin','Jl. Admin No. 1, Jakarta','081234567890',NULL,NULL,'2025-12-09 05:51:13','2025-12-09 05:51:13'),
-(5,'Anton Sabu','anton','anton@gmail.com',NULL,'$2y$12$dOuY0tr2Iy3xN7aqLIK7SuH7lDwWhZAT1mz0mXSuyyikeSZFS77dW','user','Padang','081234567890',NULL,NULL,'2025-12-23 05:00:29','2025-12-23 05:00:29'),
+(5,'Anton Sabu','anton','anton@gmail.com',NULL,'$2y$12$dOuY0tr2Iy3xN7aqLIK7SuH7lDwWhZAT1mz0mXSuyyikeSZFS77dW','user','Padang','081234567890','profiles/1tLZS6WJ0UtIunlteDtCIELgM8EAo32TnWZVB9yK.jpg',NULL,'2025-12-23 05:00:29','2025-12-30 21:11:57'),
 (6,'Yudha Bima Sakti','yudhabimasakti787','yudhabimasakti787@gmail.com',NULL,'$2y$12$s.Ex/04m2eHP7lM6jsByGON64y/0eZTAnpGYsM9wfpsa2ugfFO/ye','user','Padang','081234567890',NULL,NULL,'2025-12-23 05:19:14','2025-12-23 05:19:14');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

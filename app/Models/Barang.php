@@ -18,7 +18,19 @@ class Barang extends Model
         'harga_sewa',
         'stok',
         'foto',
+        'status',
     ];
+
+    /**
+     * Get the proper photo URL.
+     */
+    public function getFotoUrlAttribute()
+    {
+        if ($this->foto && (str_starts_with($this->foto, 'http://') || str_starts_with($this->foto, 'https://'))) {
+            return $this->foto;
+        }
+        return $this->foto ? url('storage/' . $this->foto) : url('storage/barang/default.png');
+    }
 
     public function kategori()
     {
