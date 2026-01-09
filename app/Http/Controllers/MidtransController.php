@@ -25,7 +25,7 @@ class MidtransController extends Controller
             'sewa_id' => 'required|exists:sewa,id',
         ]);
 
-        $sewa = Sewa::with(['pelanggan', 'detailSewa.barang'])->findOrFail($request->sewa_id);
+        $sewa = Sewa::with(['pelanggan.user', 'detailSewa.barang'])->findOrFail($request->sewa_id);
 
         // Check if total price is valid for Midtrans
         if ($sewa->total_harga <= 0) {
@@ -46,15 +46,20 @@ class MidtransController extends Controller
         $tanggalKembali = \Carbon\Carbon::parse($sewa->tanggal_kembali);
         $lamaSewa = max(1, (int) $tanggalSewa->diffInDays($tanggalKembali));
 
+        $user = $sewa->pelanggan->user;
+        
         $params = [
             'transaction_details' => [
                 'order_id' => $orderId,
                 'gross_amount' => (int) $sewa->total_harga,
             ],
             'customer_details' => [
-                'first_name' => $sewa->pelanggan->nama,
-                'email' => $sewa->pelanggan->email ?? 'customer@example.com',
-                'phone' => $sewa->pelanggan->telp,
+                'first_name' => $user->nama ?? 'Customer',
+                'email' => $user->email,
+                'phone' => $sewa->pelanggan->telp ?? '',
+                'billing_address' => [
+                    'address' => $sewa->pelanggan->alamat ?? '',
+                ],
             ],
             'item_details' => $sewa->detailSewa->map(function ($detail) use ($lamaSewa) {
                 return [

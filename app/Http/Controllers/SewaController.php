@@ -30,10 +30,13 @@ class SewaController extends Controller
     {
         $pelanggan = $request->user()->pelanggan;
 
-        if (! $pelanggan) {
-            return response()->json([
-                'message' => 'Data pelanggan belum lengkap',
-            ], 422);
+        if (!$pelanggan) {
+            $pelanggan = \App\Models\Pelanggan::create([
+                'id_user' => $request->user()->id,
+                'nik' => '0000000000000000',
+                'alamat' => $request->user()->alamat ?? '',
+                'telp' => $request->user()->telp ?? '',
+            ]);
         }
 
         $sewa = Sewa::with(['detailSewa.barang', 'pengembalian'])
@@ -46,12 +49,21 @@ class SewaController extends Controller
 
     public function store(Request $request)
     {
+        \Log::info('Sewa store requested', [
+            'user' => $request->user()?->nama,
+            'all_data' => $request->all(),
+            'files' => $request->allFiles()
+        ]);
+
         $pelanggan = $request->user()->pelanggan;
 
-        if (! $pelanggan) {
-            return response()->json([
-                'message' => 'Data pelanggan belum lengkap',
-            ], 422);
+        if (!$pelanggan) {
+            $pelanggan = \App\Models\Pelanggan::create([
+                'id_user' => $request->user()->id,
+                'nik' => '0000000000000000',
+                'alamat' => $request->user()->alamat ?? '',
+                'telp' => $request->user()->telp ?? '',
+            ]);
         }
 
         $validated = $request->validate([
@@ -68,7 +80,7 @@ class SewaController extends Controller
         $tanggalKembali = Carbon::parse($validated['tanggal_kembali']);
         $lamaSewa = max(1, (int) $tanggalSewa->diffInDays($tanggalKembali));
 
-        \App\Helpers\DebugHelper::info('Sewa Calculation Debug', [
+        \Log::info('Sewa Calculation Debug', [
             'tanggal_sewa' => $validated['tanggal_sewa'],
             'tanggal_kembali' => $validated['tanggal_kembali'],
             'lama_sewa' => $lamaSewa
@@ -98,7 +110,7 @@ class SewaController extends Controller
                 $subtotal = $barang->harga_sewa * (int)$item['qty'] * $lamaSewa;
                 $totalHarga += $subtotal;
 
-                \App\Helpers\DebugHelper::info('Item subtotal debug', [
+                \Log::info('Item subtotal debug', [
                     'barang_id' => $barang->id,
                     'harga_sewa' => $barang->harga_sewa,
                     'qty' => $item['qty'],
@@ -108,7 +120,7 @@ class SewaController extends Controller
                 $barang->decrement('stok', $item['qty']);
             }
 
-            \App\Helpers\DebugHelper::info('Total Harga Final', ['total' => $totalHarga]);
+            \Log::info('Total Harga Final', ['total' => $totalHarga]);
 
             // Handle foto KTP upload
             $fotoKtpPath = null;
@@ -132,7 +144,7 @@ class SewaController extends Controller
                 'foto_ktp' => $fotoKtpPath,
             ]);
 
-            \App\Helpers\DebugHelper::info('Sewa Created Debug', [
+            \Log::info('Sewa Created Debug', [
                 'id' => $sewa->id,
                 'foto_ktp' => $sewa->foto_ktp
             ]);
